@@ -22,30 +22,6 @@
 
     <include layout="@layout/content_main" />
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        >
-        <RadioButton
-            android:id="@+id/glide_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Glide"
-            />
-        <RadioButton
-            android:id="@+id/repository_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Load app"
-            />
-        <RadioButton
-            android:id="@+id/retrofit_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Retrofit"
-            />
-    </RadioGroup>
 
 
 

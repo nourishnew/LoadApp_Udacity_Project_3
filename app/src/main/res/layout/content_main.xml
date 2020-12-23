@@ -8,6 +8,30 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        >
+        <RadioButton
+            android:id="@+id/glide_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Glide"
+            />
+        <RadioButton
+            android:id="@+id/repository_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load app"
+            />
+        <RadioButton
+            android:id="@+id/retrofit_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retrofit"
+            />
+    </RadioGroup>
 
     <com.udacity.LoadingButton
         android:id="@+id/custom_button"

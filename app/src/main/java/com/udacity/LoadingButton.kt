@@ -22,17 +22,43 @@ class LoadingButton @JvmOverloads constructor(
     private var heightSize = 0
     private var radius= 0.0f
     private lateinit var buttonText: String
-    var width:Float=0F
+    var width:Float= 0F
+    var sweepAngle:Float=0F
 
 
     private var valueAnimator = ValueAnimator()
-
+    private var circleAnimator=ValueAnimator()
     private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
-       if(new==ButtonState.Loading){
-           buttonText="We are loading"
+       if(new==ButtonState.Loading) {
+           buttonText = "We are loading"
+           valueAnimator = ValueAnimator.ofFloat(0F, measuredWidth.toFloat()).apply {
+               duration = 1000
+               addUpdateListener { animation ->
+                   width = animation.animatedValue as Float
+                   animation.repeatCount = ValueAnimator.INFINITE
+                   animation.repeatMode = ValueAnimator.REVERSE
+                   invalidate()
+               }
+               start()
+           }
+           circleAnimator = ValueAnimator.ofFloat(0F, 360F).apply {
+               duration = 1000
+               addUpdateListener { animation ->
+                   sweepAngle = animation.animatedValue as Float
+                   animation.repeatCount = ValueAnimator.INFINITE
+                   invalidate()
+               }
+               start()
+           }
+
        }
         else if(new==ButtonState.Completed){
             buttonText="Download"
+           width=0F;
+           valueAnimator.removeAllListeners()
+           valueAnimator.end()
+           circleAnimator.removeAllListeners()
+           circleAnimator.end()
        }
 
     }
@@ -47,34 +73,36 @@ class LoadingButton @JvmOverloads constructor(
 
     init {
         buttonText="Download"
-        valueAnimator=ValueAnimator.ofFloat(0F, measuredWidth.toFloat())
-        valueAnimator.setDuration(3000);
-        valueAnimator.addUpdateListener{
-         width= it.animatedValue as Float
-        }
-
-
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         radius= (min(w,h) / 2 * 0.5).toFloat()
     }
-    override fun performClick(): Boolean {
-       
-        return true
-    }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        paint.color=getColor(context,R.color.colorPrimaryDark)
+        paint.color=getColor(context,R.color.colorPrimary)
         canvas!!.drawColor(paint.color)
         canvas.drawRect(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat(), paint)
         paint.color=Color.WHITE
         paint.textSize=50.0F
         paint.textAlign=Paint.Align.CENTER
         canvas.drawText(buttonText,measuredWidth.toFloat()/2,measuredHeight.toFloat()/2,paint)
-
+        paint.color=getColor(context,R.color.colorPrimaryDark)
+        canvas.drawRect(0f,0f,width,measuredHeight.toFloat(),paint)
+        paint.color=Color.WHITE
+        canvas.drawText(buttonText,measuredWidth.toFloat()/2,measuredHeight.toFloat()/2,paint)
+        paint.color=Color.YELLOW
+        canvas.drawArc(5F,5F,measuredWidth.toFloat()/2,0F,0F,sweepAngle,true,paint)
+        if(buttonState==ButtonState.Completed){
+            paint.color=getColor(context,R.color.colorPrimary)
+            canvas.drawRect(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat(), paint)
+            paint.color=Color.WHITE
+            paint.textSize=50.0F
+            paint.textAlign=Paint.Align.CENTER
+            canvas.drawText(buttonText,measuredWidth.toFloat()/2,measuredHeight.toFloat()/2,paint)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -89,7 +117,7 @@ class LoadingButton @JvmOverloads constructor(
         heightSize = h
         setMeasuredDimension(w, h)
     }
-    public fun setLoadingState(state:ButtonState){
+     fun setLoadingState(state:ButtonState){
         buttonState=state
     }
 
