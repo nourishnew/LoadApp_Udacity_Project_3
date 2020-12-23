@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity() {
             if (cursor.moveToNext()) {
                 val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
                 val notificationManager= ContextCompat.getSystemService(context!!, NotificationManager::class.java) as NotificationManager
-
                 cursor.close()
                 when (status) {
                     DownloadManager.STATUS_FAILED -> {

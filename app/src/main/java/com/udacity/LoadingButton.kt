@@ -94,7 +94,12 @@ class LoadingButton @JvmOverloads constructor(
         paint.color=Color.WHITE
         canvas.drawText(buttonText,measuredWidth.toFloat()/2,measuredHeight.toFloat()/2,paint)
         paint.color=Color.YELLOW
-        canvas.drawArc(5F,5F,measuredWidth.toFloat()/2,0F,0F,sweepAngle,true,paint)
+        canvas.drawArc( (widthSize - 90f),
+                (heightSize / 2) - 50f,
+                (widthSize-50f ),
+                (heightSize / 2) + 50f,
+                0F,sweepAngle,
+                true,paint)
         if(buttonState==ButtonState.Completed){
             paint.color=getColor(context,R.color.colorPrimary)
             canvas.drawRect(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat(), paint)
