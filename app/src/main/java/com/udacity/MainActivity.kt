@@ -78,14 +78,19 @@ class MainActivity : AppCompatActivity() {
                     DownloadManager.STATUS_FAILED -> {
                         when (id) {
                             glide_download_id -> {
+                                custom_button.setLoadingState(ButtonState.Completed)
+
                                 notificationManager.sendNotification("Download complete", context!!, "glide","failed")
 
                             }
                             repository_download_id -> {
+                                custom_button.setLoadingState(ButtonState.Completed)
+
                                 notificationManager.sendNotification("Download complete", context!!, "repository","failed")
 
                             }
                             retrofit_download_id -> {
+                                custom_button.setLoadingState(ButtonState.Completed)
                                 notificationManager.sendNotification("Download complete", context!!, "retrofit","failed")
 
                             }
@@ -95,14 +100,19 @@ class MainActivity : AppCompatActivity() {
                     DownloadManager.STATUS_SUCCESSFUL -> {
                         when (id) {
                             glide_download_id -> {
+                                custom_button.setLoadingState(ButtonState.Completed)
+
                                 notificationManager.sendNotification("Download complete", context!!, "glide","success")
 
                             }
                             repository_download_id -> {
+                                custom_button.setLoadingState(ButtonState.Completed)
+
                                 notificationManager.sendNotification("Download complete", context!!, "repository","success")
 
                             }
                             retrofit_download_id -> {
+                                custom_button.setLoadingState(ButtonState.Completed)
                                 notificationManager.sendNotification("Download complete", context!!, "retrofit","success")
 
                             }
@@ -119,6 +129,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun download(url: String) {
+        custom_button.setLoadingState(ButtonState.Loading)
         val request =
                 DownloadManager.Request(Uri.parse(url))
                 .setTitle(getString(R.string.app_name))

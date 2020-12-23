@@ -1,5 +1,6 @@
 package com.udacity
 
+import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -8,6 +9,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
+import androidx.appcompat.widget.ButtonBarLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import kotlin.math.min
@@ -20,9 +22,18 @@ class LoadingButton @JvmOverloads constructor(
     private var heightSize = 0
     private var radius= 0.0f
     private lateinit var buttonText: String
+    var width:Float=0F
 
-    private val valueAnimator = ValueAnimator()
+
+    private var valueAnimator = ValueAnimator()
+
     private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+       if(new==ButtonState.Loading){
+           buttonText="We are loading"
+       }
+        else if(new==ButtonState.Completed){
+            buttonText="Download"
+       }
 
     }
 
@@ -36,11 +47,22 @@ class LoadingButton @JvmOverloads constructor(
 
     init {
         buttonText="Download"
+        valueAnimator=ValueAnimator.ofFloat(0F, measuredWidth.toFloat())
+        valueAnimator.setDuration(3000);
+        valueAnimator.addUpdateListener{
+         width= it.animatedValue as Float
+        }
+
+
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         radius= (min(w,h) / 2 * 0.5).toFloat()
+    }
+    override fun performClick(): Boolean {
+       
+        return true
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -66,6 +88,9 @@ class LoadingButton @JvmOverloads constructor(
         widthSize = w
         heightSize = h
         setMeasuredDimension(w, h)
+    }
+    public fun setLoadingState(state:ButtonState){
+        buttonState=state
     }
 
 }
